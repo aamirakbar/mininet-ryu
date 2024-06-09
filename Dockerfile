@@ -56,7 +56,15 @@ RUN ln -s /usr/bin/python3.8 /usr/bin/python
 RUN pip install -r /root/ryu/tools/pip-requires \
         -r /root/ryu/tools/test-requires \
         -r /root/ryu/tools/optional-requires
-    
+
+
+# Install pip2 and then install requests using pip2
+# Install pip2
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && \
+    python2 get-pip.py && \
+    rm get-pip.py
+
+RUN pip2 install requests  
 
 # Expose Mininet and RYU ports
 EXPOSE 6633 6653 6640
