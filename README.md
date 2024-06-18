@@ -2,9 +2,15 @@
 
 This Docker image provides a Mininet simulation environment integrated with the RYU SDN controller. It allows you to easily set up and run network simulations using Mininet and manage them with RYU.
 
-## Pull the Docker Image
+## Build Locally or Pull the Docker Image
 
-To pull the Docker image from DockerHub, use the following command:
+To build locally, git clone to the repository and use the following command:
+
+```sh
+sudo docker build -t 601199/mininet-ryu .
+```
+
+Alternatively, to pull the Docker image from DockerHub, use the following command:
 
 ```sh
 sudo docker pull 601199/mininet-ryu

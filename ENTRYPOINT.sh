@@ -3,6 +3,12 @@
 service openvswitch-switch start
 ovs-vsctl set-manager ptcp:6640
 
+# Start the Zebra daemon
+zebra -d
+
+# Start the BGP daemon
+bgpd -d
+
 if [ $# -gt 0 ]
 then
   if [ "$1" == "mn" ]

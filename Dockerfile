@@ -33,6 +33,7 @@ RUN apt-get update && \
         vim \
         x11-xserver-utils \
         xterm \
+        quagga \
     && rm -rf /var/lib/apt/lists/* \
     && touch /etc/network/interfaces \
     && chmod +x /ENTRYPOINT.sh \
@@ -64,7 +65,23 @@ RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && \
     python2 get-pip.py && \
     rm get-pip.py
 
-RUN pip2 install requests  
+RUN pip2 install requests
+
+
+# Enable IP forwarding
+RUN echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf && \
+    sysctl -p
+
+# Set up Quagga configuration
+COPY zebra.conf /etc/quagga/zebra.conf
+COPY bgpd.conf /etc/quagga/bgpd.conf 
+
+# Ensure that the /var/log/quagga directory exists and create the log files with appropriate permissions.
+RUN mkdir -p /var/log/quagga && \
+    touch /var/log/quagga/zebra.log && \
+    touch /var/log/quagga/bgpd.log && \
+    chmod 640 /var/log/quagga/*.log && \
+    chown quagga:quagga /var/log/quagga/*.log
 
 # Expose Mininet and RYU ports
 EXPOSE 6633 6653 6640
